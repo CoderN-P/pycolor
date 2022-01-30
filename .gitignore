@@ -9,7 +9,7 @@ __pycache__/
 #MacOS files
 .DS_Store
 
-#Unneded Pycharm files
+#Unneeded Pycharm files
 .idea
 
 # Distribution / packaging
