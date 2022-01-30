@@ -3,7 +3,7 @@
 ```pip install pycolor```
 
 ## About
-Pycolor is an extremely simple library. It uses thecolorapi to get info on inputted hex/rgb strings 
+Pycolor uses thecolorapi to to get useful information about colors in a pythonic way.
 ## Usage
 
 ```py
