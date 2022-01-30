@@ -12,7 +12,7 @@ setup(
     name="pycolor-codern",
     packages=["pycolor"],
     package_dir={"": "src"},
-    version="1.0.1",
+    version="1.0.2",
     description="Pycolor uses thecolorapi to to get useful information about colors in a pythonic way.",
     long_description=README,
     long_description_content_type="text/markdown",

@@ -29,11 +29,12 @@ class Color:
             self.input_type = 'hex'
             self._color_input = value.lstrip('#')
         elif isinstance(value, tuple):
-            if [i for i in value if isinstance(i, int)] != 3:
+            if len([i for i in value if isinstance(i, int)]) != 3:
                 raise ValueError("RGB must be a tuple of 3 ints")
             if len([i for i in value if int(i) > 255 or int(i)]) < 0 > 0:
                 raise ValueError("Rgb Values must be between 0 and 255")
             self.input_type = 'rgb'
+            self._color_input = value
         else:
             raise ValueError('Invalid color input. Only (hex: str) and (rgb: tuple) are supported.')
 
@@ -47,7 +48,7 @@ class Color:
             self._input_type = value
 
     def __post_init__(self) -> None:
-        info = requests.get(f"https://www.thecolorapi.com/id?{self.input_type}={self._color_input}")
+        info = requests.get(f"https://www.thecolorapi.com/id?{self.input_type}={self.color_input}")
 
         try:
             info = info.json()
@@ -58,7 +59,7 @@ class Color:
             self.hsl = hsl.replace('%', '')
 
             rgb1 = info['rgb']['value'][:-1]
-            self.rgb = rgb1[4:]
+            self.rgb = tuple(int(i) for i in rgb1[4:].split(','))
 
             self.hsv = info['hsv']['value'][4:][:-1].replace('%', '')
             hex1 = info['hex']['value']
