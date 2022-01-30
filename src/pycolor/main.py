@@ -26,21 +26,28 @@ class Color:
     @color_input.setter
     def color_input(self, value: Tuple[int, int, int] | str) -> None:
         if isinstance(value, str):
-            self._input_type = 'hex'
+            self.input_type = 'hex'
             self._color_input = value.lstrip('#')
         elif isinstance(value, tuple):
             if [i for i in value if isinstance(i, int)] != 3:
                 raise ValueError("RGB must be a tuple of 3 ints")
             if len([i for i in value if int(i) > 255 or int(i)]) < 0 > 0:
                 raise ValueError("Rgb Values must be between 0 and 255")
-            self._input_type = 'rgb'
+            self.input_type = 'rgb'
         else:
             raise ValueError('Invalid color input. Only (hex: str) and (rgb: tuple) are supported.')
 
+    @property
+    def input_type(self) -> str:
+        return self._input_type
+
+    @input_type.setter
+    def input_type(self, value: str) -> None:
+        if value in ('hex', 'rgb'):
+            self._input_type = value
+
     def __post_init__(self) -> None:
         info = requests.get(f"https://www.thecolorapi.com/id?{self.input_type}={self._color_input}")
-
-        print(self.input_type)
 
         try:
             info = info.json()

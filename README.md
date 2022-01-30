@@ -1,4 +1,4 @@
-# PyColor
+# pycolor
 ## Installation
 ```pip install pycolor```
 
