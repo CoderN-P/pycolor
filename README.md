@@ -1,6 +1,10 @@
 # pycolor
 ## Installation
-```pip install pycolor```
+Due to `pycolor` already being used, the actual package name is `pycolor-codern`
+
+```bash
+$ pip install pycolor-codern
+```
 
 ## About
 Pycolor uses thecolorapi to to get useful information about colors in a pythonic way.
