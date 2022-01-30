@@ -9,7 +9,7 @@ README = (HERE / "README.md").read_text()
 
 # This call to setup() does all the work
 setup(
-    name="pycolor",
+    name="python-colors",
     packages=["pycolor"],
     package_dir={"": "src"},
     version="1.0.0",
