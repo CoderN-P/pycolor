@@ -1,1 +1,1 @@
-from src.pycolor.main import Color
+from pycolor.main import Color
