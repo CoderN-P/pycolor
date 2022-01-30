@@ -1,5 +1,5 @@
 from __future__ import annotations
-
+from json.decoder import JSONDecodeError
 from dataclasses import dataclass
 from typing import Tuple
 
@@ -19,30 +19,28 @@ class Color:
     hsv: str = 'none'
     rgb: str = 'none'
 
-    def __post_init__(self):
-        if isinstance(self.color_input, str):
-            self.input_type = 'hex'
-        elif isinstance(self.color_input, tuple):
-            self.input_type = 'rgb'
+    @property
+    def color_input(self) -> Tuple[int, int, int] | str:
+        return self._color_input
+
+    @color_input.setter
+    def color_input(self, value: Tuple[int, int, int] | str) -> None:
+        if isinstance(value, str):
+            self._input_type = 'hex'
+            self._color_input = value.lstrip('#')
+        elif isinstance(value, tuple):
+            if [i for i in value if isinstance(i, int)] != 3:
+                raise ValueError("RGB must be a tuple of 3 ints")
+            if len([i for i in value if int(i) > 255 or int(i)]) < 0 > 0:
+                raise ValueError("Rgb Values must be between 0 and 255")
+            self._input_type = 'rgb'
         else:
-            raise ValueError('Invalid color input. Only hex: str and rgb: tuple are supported.')
+            raise ValueError('Invalid color input. Only (hex: str) and (rgb: tuple) are supported.')
 
-        if self.input_type == 'hex':
-            self.color_input = self.color_input.lstrip('#')
-            info = requests.get(f"https://www.thecolorapi.com/id?hex={self.color_input}")
+    def __post_init__(self) -> None:
+        info = requests.get(f"https://www.thecolorapi.com/id?{self.input_type}={self._color_input}")
 
-        else:
-            data = self.color_input
-
-
-            for i in data:
-                if int(i) > 255 or int(i) < 0:
-                    raise ValueError("Rgb Values must be between 0 and 255")
-                else:
-                    continue
-
-
-            info = requests.get(f"https://www.thecolorapi.com/id?rgb={self.color_input}")
+        print(self.input_type)
 
         try:
             info = info.json()
@@ -62,5 +60,5 @@ class Color:
             self.xyz = info['XYZ']['value'][4:][:-1]
             self.image = f'https://singlecolorimage.com/get/{hex1[1:]}/400x100.png'
 
-        except KeyError:
+        except JSONDecodeError:
             raise ValueError("This hex/rgb doesnt exist")
