@@ -41,12 +41,11 @@ class Color:
                     raise ValueError("Hex must only contain hex chars")
             self._color = value
 
-        if isinstance(value, tuple) or isinstance(value, list):
+        if isinstance(value, (tuple, list)):
             if len([i for i in value if str(i).isdigit()]) not in [3, 4]:
                 if self.color_type == 'cmyk':
                     raise ValueError("CMYK must be a tuple of 4 ints")
-                else:
-                    raise ValueError("RGB/HSL must be a tuple or string of 3 ints")
+                raise ValueError("RGB/HSL must be a tuple or string of 3 ints")
             else:
                 value = tuple(map(int, list(value)))
             if self.color_type == 'hsl':
@@ -107,4 +106,3 @@ class Color:
 
     def get_raw(self) -> dict:
         return self.raw_data
-
