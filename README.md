@@ -7,7 +7,7 @@ $ pip install pycolor-codern
 ```
 
 ## About
-Pycolor uses thecolorapi to get useful information about colors in a pythonic way.
+Pycolor is a simple and easy to use api wrapper for [The Colorapi](https://thecolorapi.com)
 ## Usage
 
 ```py
